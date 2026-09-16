@@ -10,5 +10,4 @@ Session = sessionmaker(bind=engine)
 # session = Session()
 
 def get_db():
-    
     return Session()
