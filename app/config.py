@@ -1,8 +1,12 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
+import os
+
+print("Directorio actual:", os.getcwd())
+print("Existe .env:", os.path.exists(".env"))
 
 
 class Settings(BaseSettings):
-    DATABASE_URL: str
+    DB_URL: str
 
     model_config = SettingsConfigDict(
         env_file=".env"
@@ -10,6 +14,7 @@ class Settings(BaseSettings):
 
 settings = Settings()
 
+print("DB_URL:", settings.DB_URL)
 
 ##-----------------------
 #

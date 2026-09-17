@@ -1,6 +1,6 @@
 from fastapi import FastAPI
-from routes.health import router as health
-from routes.health import router as indicators
+from app.routes.health import router as health
+from app.routes.indicators import router as indicators
 
 app = FastAPI()
 

@@ -1,6 +1,7 @@
 from sqlalchemy import select
-from models.indicator import Indicator
+from app.models.indicator import Indicator
 
+# Recojemos todos los indicadores
 def get_indicators(db):
 
     consulta = select(Indicator)
@@ -9,14 +10,16 @@ def get_indicators(db):
 
     return indicadors
 
+# Recojer indicador segun el id
 def get_indicatorsID(db, id):
 
     consulta = select(Indicator).where(Indicator.id == id)
     resultado = db.execute(consulta)
-    indicadors = resultado.scarlars().one_or_none()
+    indicadors = resultado.scalars().one_or_none()
 
     return indicadors
 
+# Subida de los indicadores
 def post_indicator(indicator, db):
     try:
         indicator_db = indicator(
@@ -34,4 +37,21 @@ def post_indicator(indicator, db):
 
         return {"succes": "ok"}
     except Exception as e:
-        return {"succes": "Error"}, {"msg" : f" Indicators no subido {e}"}
+        return {"succes": "Error", "msg" : f" Indicators no subido {e}"}
+
+
+def del_indicator(id, db):
+
+    try:
+        consulta = select(Indicator).where(Indicator.id == id)
+        resultado = db.Execute(consulta)
+        indicador = resultado.scalars().one_or_none()
+        if indicador:
+            db.delete(indicador)
+            db.commit()
+            return {"succes" : "ok"}
+        else:
+            return {"succes": "Error"}
+
+    except Exception as e:
+        return e
