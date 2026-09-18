@@ -2,9 +2,10 @@ from app.storage.indicator_storage import get_indicators as indicators
 from app.storage.indicator_storage import get_indicatorsID as indicatorsID
 from app.storage.indicator_storage import post_indicator as post_indicator
 from app.storage.indicator_storage import del_indicator as delete_indicador
+from app.services.validate import check_indicator
 
 
-# Services: Obtenemos el indicador, comprobamos y lo enviamos
+# Services: We get the indicator, check it, and send it
 # Route
 def indicador(db):
     lista = indicators(db)
@@ -24,7 +25,12 @@ def indicadorID(db, id):
 
 def insert_indicadores(indicator, db):
 
-    post = post_indicator(indicator, db)
+    resultado = check_indicator(indicator)
+
+    if resultado.get("status") == "ok":
+        post = post_indicator(indicator, db)
+    else:
+        return resultado.get("msg")
 
     if post.get("succes") == "ok":
         return "Indicadores subido correctamente"

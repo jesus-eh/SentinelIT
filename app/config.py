@@ -14,11 +14,11 @@ class Settings(BaseSettings):
 
 settings = Settings()
 
-print("DB_URL:", settings.DB_URL)
+# print("DB_URL:", settings.DB_URL)
 
 ##-----------------------
 #
-# Posible configuracion de un futuro
+# Posible future configuration 
 #
 #------------------------
 
