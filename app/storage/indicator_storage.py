@@ -1,5 +1,6 @@
 from sqlalchemy import select
 from app.models.indicator import Indicator
+from app.services.risk_service import calculate_risk
 
 # We collect all the indicators   
 def get_indicators(db):
@@ -27,11 +28,13 @@ def post_indicator(indicator, db):
         busqueda = search_type_value(db, indicator.type, indicator.value)
 
         if busqueda.get("succes") == "ok":
+            risk = calculate_risk(indicator)
             indicator_db = Indicator(
                 type=indicator.type,
                 value=indicator.value,
                 source=indicator.source,
                 confidence=indicator.confidence,
+                risk_score=risk,
                 threat_type=indicator.threat_type,
                 tags=indicator.tags
             )
@@ -82,11 +85,3 @@ def search_type_value(db, type, value):
         return {"succes":"error","msg": f"El tipo {type} y el value {value} ya estan registrado"}
     else:
         return {"succes":"ok"}
-
-
-# def loop_lista(data):
-
-#     for datos in data:
-        
-
-#     return
